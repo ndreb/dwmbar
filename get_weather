@@ -1,0 +1,16 @@
+#!/bin/sh
+
+update() {
+    if curl "wttr.in?format=%C+%t" > ~/.weather_report.txt
+    then
+        return 0
+    else
+        echo "..." > ~/.weather_report.txt
+    fi
+}
+
+while true; do
+    update
+    sleep 300
+done
+

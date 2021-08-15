@@ -1,0 +1,16 @@
+#!/bin/sh
+
+net_check() {
+    if ping -c 1 www.google.com
+    then
+        echo "UP" > ~/.network_status.txt
+    else
+        echo > ~/.network_status.txt
+    fi
+}
+
+while true; do
+    net_check
+    sleep 15
+done
+
