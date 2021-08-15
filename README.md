@@ -1,1 +1,1 @@
-# simple dwm status bar configuration.
+Simple dwm status bar configuration.
