@@ -28,7 +28,7 @@ battery() {
 }
 
 memory() {
-    printf '%s %i %s\n' "" "$(free -m | awk 'FNR == 2 {print $3}')" "mb |"
+    printf '%s %i %s\n' "" "$(free -m | awk 'FNR == 2 {print ($3+$6)}')" "mb |"
 }
 
 cpu() {
