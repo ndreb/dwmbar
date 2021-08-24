@@ -8,23 +8,16 @@ sh ~/suckless/dwmbar/net_check.sh >/dev/null 2>&1 &
 
 sh ~/suckless/dwmbar/get_weather.sh >/dev/null 2>&1 &
 
-sleep 1
-
 weather() {
     cat /tmp/weather_report.tmp
 }
 
 network() {
-    if grep -q "UP" /tmp/network_status.tmp
-    then
-        echo "| "
-    else
-        echo "| "
-    fi
+    grep -q "UP" /tmp/network_status.tmp && echo "| " || echo "| "
 }
 
 battery() {
-    echo "|  $(cat "/sys/class/power_supply/BAT0/capacity")% |"
+    echo "|  $(cat /sys/class/power_supply/BAT0/capacity)% |"
 }
 
 memory() {

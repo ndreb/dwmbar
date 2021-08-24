@@ -1,12 +1,8 @@
 #!/bin/sh
 
 net_check() {
-    if ping -c 1 www.google.com
-    then
-        echo "UP" > /tmp/network_status.tmp
-    else
-        echo > /tmp/network_status.tmp
-    fi
+    ping -c 1 www.google.com && echo "UP" > /tmp/network_status.tmp \
+    || echo > /tmp/network_status.tmp
 }
 
 while true; do

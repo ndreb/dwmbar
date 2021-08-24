@@ -1,12 +1,8 @@
 #!/bin/sh
 
 update() {
-    if curl "wttr.in?format=%C+%t" > /tmp/weather_report.tmp
-    then
-        return 0
-    else
-        echo "..." > /tmp/weather_report.tmp
-    fi
+    curl "wttr.in?format=%C+%t" > /tmp/weather_report.tmp \
+    || echo "..." > /tmp/weather_report.tmp
 }
 
 while true; do
