@@ -4,9 +4,15 @@
 
 [ ! -f /tmp/weather_report.tmp ] && touch /tmp/weather_report.tmp
 
+sleep 0.5
+
 sh ~/suckless/dwmbar/net_check.sh >/dev/null 2>&1 &
 
+sleep 0.5
+
 sh ~/suckless/dwmbar/get_weather.sh >/dev/null 2>&1 &
+
+sleep 1
 
 weather() {
     cat /tmp/weather_report.tmp
