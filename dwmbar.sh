@@ -1,42 +1,34 @@
 #!/bin/sh
 
-[ ! -f /tmp/network_status.tmp ] && touch /tmp/network_status.tmp
+battery() {
+    echo "|  $(cat /sys/class/power_supply/BAT0/capacity)%"
+}
 
-[ ! -f /tmp/weather_report.tmp ] && touch /tmp/weather_report.tmp
+cpu() {
+    echo "|  $(sensors | awk 'FNR == 8 {print $4}') 00% |"
+}
 
-sleep 0.5
+memory() {
+    echo " $(free -m | awk 'FNR == 2 {print ($3+$6)}') MiB"
+}
 
-sh ~/suckless/dwmbar/net_check.sh >/dev/null 2>&1 &
+network() {
+    grep -q "UP" /tmp/network_status.tmp && echo "|  |" || echo "|  |"
+}
 
-sleep 0.5
-
-sh ~/suckless/dwmbar/get_weather.sh >/dev/null 2>&1 &
-
-sleep 1
+status_bar() {
+    echo "$(weather) $(cpu) $(memory) $(battery) $(network) $(date)"
+}
 
 weather() {
     cat /tmp/weather_report.tmp
 }
 
-network() {
-    grep -q "UP" /tmp/network_status.tmp && echo "| " || echo "| "
-}
+sh ~/suckless/dwmbar/net_check.sh >/dev/null 2>&1 &
 
-battery() {
-    echo "|  $(cat /sys/class/power_supply/BAT0/capacity)% |"
-}
+sh ~/suckless/dwmbar/get_weather.sh >/dev/null 2>&1 &
 
-memory() {
-    printf '%s %i %s\n' "" "$(free -m | awk 'FNR == 2 {print ($3+$6)}')" "MiB |"
-}
-
-cpu() {
-    echo " 00% |"
-}
-
-status_bar() {
-    echo "$(weather) $(network) $(battery) $(memory) $(cpu) $(date)"
-}
+sleep 1
 
 while true; do
     xsetroot -name " $(status_bar) "
