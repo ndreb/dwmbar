@@ -5,11 +5,11 @@ battery() {
 }
 
 cpu_perc() {
-    cat /tmp/cpu_perc.tmp
+    echo "|  $(cat /tmp/cpu_perc.tmp) "
 }
 
 cpu_temp() {
-    echo "|  +$(($(cat /sys/class/thermal/thermal_zone8/temp)/1000)).0°C"
+    echo " $(($(cat /sys/class/thermal/thermal_zone8/temp)/1000))°C"
 }
 
 memory() {
@@ -21,7 +21,7 @@ network() {
 }
 
 status_bar() {
-    echo "$(weather) $(cpu_temp) $(cpu_perc) $(memory) $(battery) $(network) $(date)"
+    echo "$(weather) $(cpu_perc) $(cpu_temp) $(memory) $(battery) $(network) $(date)"
 }
 
 weather() {
