@@ -12,7 +12,8 @@ BEGIN {
         for (i = 2; i <= NF; i++)
             total += $i
 
-        print (1-(idle-prev_idle)/(total-prev_total))*100"%"
+        printf "%.1f%%", (1-(idle-prev_idle)/(total-prev_total))*100 > "/tmp/cpu_perc.tmp"
+        close("/tmp/cpu_perc.tmp")
 
         prev_idle = idle
         prev_total = total

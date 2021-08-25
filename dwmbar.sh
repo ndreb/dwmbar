@@ -4,12 +4,16 @@ battery() {
     echo "|  $(cat /sys/class/power_supply/BAT0/capacity)%"
 }
 
-cpu() {
-    echo "|  $(sensors | awk 'FNR == 8 {print $4}') 00% |"
+cpu_perc() {
+    cat /tmp/cpu_perc.tmp
+}
+
+cpu_temp() {
+    echo "|  +$(($(cat /sys/class/thermal/thermal_zone8/temp)/1000)).0°C"
 }
 
 memory() {
-    echo " $(free -m | awk 'FNR == 2 {print ($3+$6)}') MiB"
+    echo "|  $(free -m | awk 'FNR == 2 {print ($3+$6)}') MiB"
 }
 
 network() {
@@ -17,7 +21,7 @@ network() {
 }
 
 status_bar() {
-    echo "$(weather) $(cpu) $(memory) $(battery) $(network) $(date)"
+    echo "$(weather) $(cpu_temp) $(cpu_perc) $(memory) $(battery) $(network) $(date)"
 }
 
 weather() {
@@ -27,6 +31,10 @@ weather() {
 sh ~/suckless/dwmbar/net_check.sh >/dev/null 2>&1 &
 
 sh ~/suckless/dwmbar/get_weather.sh >/dev/null 2>&1 &
+
+[ ! -f /tmp/cpu_perc.tmp ] && touch /tmp/cpu_perc.tmp
+
+awk -f ~/suckless/dwmbar/cpu.awk &
 
 sleep 1
 
