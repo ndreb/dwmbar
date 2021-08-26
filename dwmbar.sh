@@ -25,7 +25,7 @@ mem_used() {
 }
 
 network() {
-    grep -q "up" /sys/class/net/wlan0/operstate && echo "|  |" || echo "|  |"
+    grep -q "up" /sys/class/net/*/operstate && echo "|  |" || echo "|  |"
 }
 
 status_bar() {
