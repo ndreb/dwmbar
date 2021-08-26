@@ -25,7 +25,7 @@ mem_used() {
 }
 
 network() {
-    grep -q "UP" /tmp/network_status.tmp && echo "|  |" || echo "|  |"
+    grep -q "up" /sys/class/net/wlan0/operstate && echo "|  |" || echo "|  |"
 }
 
 status_bar() {
@@ -35,8 +35,6 @@ status_bar() {
 weather() {
     cat /tmp/weather_report.tmp
 }
-
-sh ~/suckless/dwmbar/net_check.sh >/dev/null 2>&1 &
 
 sh ~/suckless/dwmbar/get_weather.sh >/dev/null 2>&1 &
 
