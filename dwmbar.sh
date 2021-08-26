@@ -12,8 +12,16 @@ cpu_temp() {
     echo " $(($(cat /sys/class/thermal/thermal_zone8/temp)/1000))°C"
 }
 
-memory() {
-    echo "|  $(free -m | awk 'FNR == 2 {print ($3+$6)}') MiB"
+mem_avail() {
+    awk 'FNR == 3 {printf "%lu", $2}' "/proc/meminfo"
+}
+
+mem_total() {
+    awk 'FNR == 1 {printf "%lu", $2}' "/proc/meminfo"
+}
+
+mem_used() {
+    echo "|  $((($(mem_total)-$(mem_avail))/1024)) MiB"
 }
 
 network() {
@@ -21,7 +29,7 @@ network() {
 }
 
 status_bar() {
-    echo "$(weather) $(cpu_perc) $(cpu_temp) $(memory) $(battery) $(network) $(date)"
+    echo "$(weather) $(cpu_perc) $(cpu_temp) $(mem_used) $(battery) $(network) $(date)"
 }
 
 weather() {
