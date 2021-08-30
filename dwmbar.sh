@@ -29,8 +29,14 @@ network() {
 }
 
 status_bar() {
-    echo "$(weather) $(cpu_perc) $(cpu_temp) $(mem_used) $(battery) $(network) $(date)"
-}
+    echo "$(weather) $(cpu_perc) $(cpu_temp) $(mem_used) $(battery)" \
+        "$(network) $(vpn_opstate) $(date)"
+    }
+
+vpn_opstate() {
+    grep -q "up" /sys/class/net/tun0/subsystem/wlan0/operstate && echo " |" \
+        || echo " |"
+    }
 
 weather() {
     cat /tmp/weather_report.tmp
@@ -40,7 +46,7 @@ sh ~/suckless/dwmbar/get_weather.sh >/dev/null 2>&1 &
 
 [ ! -f /tmp/cpu_perc.tmp ] && touch /tmp/cpu_perc.tmp
 
-awk -f ~/suckless/dwmbar/cpu.awk &
+awk -f ~/suckless/dwmbar/cpu.awk >/dev/null 2>&1 &
 
 sleep 1
 
