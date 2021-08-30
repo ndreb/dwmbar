@@ -34,9 +34,13 @@ status_bar() {
     }
 
 vpn_opstate() {
-    grep -q "up" /sys/class/net/tun0/subsystem/wlan0/operstate && echo " |" \
-        || echo " |"
-    }
+    if [ -f /sys/class/net/tun0/subsystem/wlan0/operstate ]
+    then
+        echo " |"
+    else
+        echo " |"
+    fi
+}
 
 weather() {
     cat /tmp/weather_report.tmp
