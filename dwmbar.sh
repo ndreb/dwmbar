@@ -34,7 +34,7 @@ status_bar() {
     }
 
 vpn_opstate() {
-    if [ -f /sys/class/net/tun0/subsystem/wlan0/operstate ]
+    if [ -f /sys/class/net/tun0/subsystem/wlp0s20f3/operstate ]
     then
         echo " |"
     else
